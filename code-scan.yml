@@ -1,0 +1,14 @@
+name: Code Scanner
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run CodeQL
+        uses: github/codeql-action/analyze@v3
