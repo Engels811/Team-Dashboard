@@ -1,0 +1,28 @@
+name: Auto Docs Generator
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "**/*.py"
+      - "**/*.lua"
+      - "**/*.md"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate Documentation
+        run: |
+          mkdir -p docs/autogen
+          echo "# Auto Docs – Build $(date)" > docs/autogen/README.md
+          tree -I '.git' >> docs/autogen/README.md
+
+      - name: Commit Docs
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🔧 Auto Docs Update"
+          commit_user_name: WonderLife System
+          commit_user_email: system@wonderlife.dev
