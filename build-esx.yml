@@ -1,0 +1,24 @@
+name: Build ESX Resource
+
+on:
+  push:
+    paths:
+      - "resources/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Resource ZIP
+        run: |
+          cd resources
+          zip -r esx_resource.zip .
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: esx_build
+          path: resources/esx_resource.zip
