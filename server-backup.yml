@@ -1,0 +1,19 @@
+name: Server Backup
+
+on:
+  schedule:
+    - cron: "0 */6 * * *" # alle 6 Stunden
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH → Backup ausführen
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            zip -r /home/backups/wl_backup_$(date +%F_%H-%M).zip /home/discord/wonderlife_network/
