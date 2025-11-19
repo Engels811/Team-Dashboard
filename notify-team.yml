@@ -1,0 +1,22 @@
+name: Discord Notify
+
+on:
+  workflow_run:
+    workflows: ["Build & Deploy Bot", "Auto Release", "Auto Docs Generator"]
+    types:
+      - completed
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord Notification
+        uses: tsickert/discord-webhook@v5
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+          content: |
+            🚀 **WonderLife System Update**
+            Workflow: **${{ github.event.workflow_run.name }}**
+            Status: **${{ github.event.workflow_run.conclusion }}**
+            Commit: ${{ github.sha }}
+            Repo: ${{ github.repository }}
